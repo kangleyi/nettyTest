@@ -1,15 +1,13 @@
-package org.netty.nio;
+package org.netty.test;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
+//ChannelInboundHandlerAdapter实现自ChannelInboundHandler
+//ChannelInboundHandler提供了不同的事件处理方法你可以重写
 
-/**
- * 解码分析 https://www.cnblogs.com/wade-luffy/p/6222960.html
- */
-public class EchoServerHandler extends ChannelInboundHandlerAdapter {
-
+public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
     /*
      * @说明:该方法用于接收从客户端接收的信息
      * @时间:2017-4-2下午12:25:05

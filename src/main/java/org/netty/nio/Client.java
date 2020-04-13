@@ -10,7 +10,7 @@ public class Client {
     public static void main(String[] args) {
         Socket socket = null;
         try {
-            socket = new Socket("127.0.0.1", 8007);
+            socket = new Socket("127.0.0.1", 8088);
             //由系统标准输入设备构造BufferedReader对象
             BufferedReader sin = new BufferedReader(new InputStreamReader(System.in));
             //由Socket对象得到输出流，并构造PrintWriter对象

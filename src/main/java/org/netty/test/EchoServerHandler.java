@@ -1,18 +1,12 @@
-package org.netty.nio;
+package org.netty.test;
 
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.util.ReferenceCountUtil;
 
-/**
- * 解码分析 https://www.cnblogs.com/wade-luffy/p/6222960.html
- */
 public class EchoServerHandler extends ChannelInboundHandlerAdapter {
-
     /*
      * @说明:该方法用于接收从客户端接收的信息
-     * @时间:2017-4-2下午12:25:05
+     * @时间:2017-4-8下午12:08:51
      * @see io.netty.channel.ChannelInboundHandlerAdapter#channelRead(io.netty.channel.ChannelHandlerContext, java.lang.Object)
      * @param ctx
      * @param msg
@@ -21,17 +15,14 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg)
             throws Exception {
-        //Discard the received data silently
-        //ByteBuf是一个引用计数对象实现ReferenceCounted，他就是在有对象引用的时候计数+1，无的时候计数-1，当为0对象释放内存
-        ByteBuf in=(ByteBuf)msg;
-        try {
-            while(in.isReadable()){
-                System.out.println((char)in.readByte());
-                System.out.flush();
-            }
-        } finally {
-            ReferenceCountUtil.release(msg);
-        }
+        //ChannelHandlerContext提供各种不同的操作用于触发不同的I/O时间和操作
+        //调用write方法来逐字返回接收到的信息
+        //这里我们不需要在DISCARD例子当中那样调用释放，因为Netty会在写的时候自动释放
+        //只调用write是不会释放的，它会缓存，直到调用flush
+        ctx.write(msg);
+        ctx.flush();
+        //你可以直接使用writeAndFlush(msg)
+        //ctx.writeAndFlush(msg);
     }
 
     @Override
